@@ -29,17 +29,17 @@ for user in `cat $1`;do
 echo ""
 echo "$yellow$user$normal has access to:"
 echo "$green"
-fgrep -f $1 $2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'} | grep $user | cut -d \' -f 2 | grep -i -v 'rid' | grep -v '\$' | grep -v '\{' | sort -u
+fgrep -w -f $1 $2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'} | grep $user | cut -d \' -f 2 | grep -i -v 'rid' | grep -v '\$' | grep -v '\{' | sort -u
 echo "$normal"
 done
 if 
-fgrep -f $1 $2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'} | grep -f $groups > /dev/null 2>&1
+fgrep -w -f $1 $2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'} | grep -f $groups > /dev/null 2>&1
 then
 echo "+---------------------------------------+"
 echo "|$yellow Possible$red High Privilaged$yellow Users Found!$normal|"
 echo "+---------------------------------------+"
 
-group=`fgrep -f $1 $2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'} | grep -f $groups  | cut -d \( -f 1 | cut -d \' -f 2 | grep -i -v 'rid' | grep -v '\{' | sort -u ` 
+group=`fgrep -w -f $1 $2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'} | grep -f $groups  | cut -d \( -f 1 | cut -d \' -f 2 | grep -i -v 'rid' | grep -v '\{' | sort -u ` 
 
 echo "Groups found: $red$group$normal"
 echo ""
@@ -47,7 +47,7 @@ echo ""
 #fgrep -f $1 $2 | sort | awk {' $1 =""; print'} | grep -f $groups | awk {'print $NF,"-" $0 '} | cut -d \( -f 1 | grep -i -v 'rid' | grep -v '\$' | grep -v '\{' | cut -d "\\" -f 2 | awk {'print $NF, $0'} | sort | awk {' $1 =""; print'}
 
 
-fgrep -f $1 $2 | sort | awk {' $1 =""; print'} | grep -f $groups | awk {'print $NF,"-" $0 '} | cut -d \( -f 1 | grep -i -v 'rid' | grep -v '\$' | grep -v '\{' | cut -d "\\" -f 2 | cut -d - -f 1 | column 
+fgrep -w -f $1 $2 | sort | awk {' $1 =""; print'} | grep -f $groups | awk {'print $NF,"-" $0 '} | cut -d \( -f 1 | grep -i -v 'rid' | grep -v '\$' | grep -v '\{' | cut -d "\\" -f 2 | cut -d - -f 1 | column 
 
 echo ""
 else
