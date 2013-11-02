@@ -15,7 +15,7 @@ rc4   = %r{RC4_}
 cn    = %r{CN=([^,\n]+)}
 ciphers_min = %r{Minimal encryption strength: [^\(]+\(([^\)]+)\)}
 ciphers_max = %r{Achievable encryption strength: [^\(]+\(([^\)]+)\)}
-no_ssl_tls = %r{No SSL/TLS server at}i
+error = %r{No SSL/TLS server at}i
 
 if file = ARGV[0]
   if File.exists?(ssl_test_bin)
@@ -25,14 +25,16 @@ if file = ARGV[0]
       headings = ['Target', 'CN', 'SSLv2', 'Ciphers Strength (min - achievable)', 'BEAST', 'CRIME', 'RC4']
       bar      = ProgressBar.create(:format => '%a <%B> (%c / %C) %P%% %e', :total => targets.size)
       
-      targets.each do |target|
+      targets.flatten.uniq.each do |target|
         target.chomp!
 
         row     = [target]
         command = %x{java -jar #{ssl_test_bin} #{target}}
 
-        if command.match(no_ssl_tls)
+        if command.match(error)
           row << { :value => 'Error: ' + command, :colspan => 6 }
+        elsif command.empty?
+          row << { :value => 'Error: Empty Response (might be a java exception)', :colspan => 6 }
         else
           row << command[cn, 1]
           row << (command.match(sslv2) ? 'Yes' : 'No')
