@@ -13,9 +13,18 @@ crime = %r{CRIME status: vulnerable}i
 sslv2 = %r{SSLv2}
 rc4   = %r{RC4_}
 cn    = %r{CN=([^,\n]+)}
-ciphers_min = %r{Minimal encryption strength: [^\(]+\(([^\)]+)\)}
-ciphers_max = %r{Achievable encryption strength: [^\(]+\(([^\)]+)\)}
+ciphers_min = %r{Minimal encryption strength:\s+([^\n]+)\n}
+ciphers_max = %r{Achievable encryption strength:\s+([^\n]+)\n}
 error = %r{No SSL/TLS server at}i
+
+def get_cipher_strength(output)
+  if output =~ /no encryption/
+    strength = '0 bit'
+  else
+    strength = output[/[^\(]+\(([^\)]+)\)/, 1]
+  end
+  strength
+end
 
 if file = ARGV[0]
   if File.exists?(ssl_test_bin)
@@ -38,7 +47,7 @@ if file = ARGV[0]
         else
           row << command[cn, 1]
           row << (command.match(sslv2) ? 'Yes' : 'No')
-          row << (command[ciphers_min, 1] + ' - ' + command[ciphers_max, 1])
+          row << (get_cipher_strength(command[ciphers_min, 1]) + ' - ' + get_cipher_strength(command[ciphers_max, 1]))
           row << (command.match(beast) ? 'Yes' : 'No')
           row << (command.match(crime) ? 'Yes' : 'No')
           row << (command.match(rc4) ? 'Yes' : 'No')
