@@ -40,7 +40,7 @@ opt_parser = OptionParser.new('Usage: ./ms15-034-checker.rb [options] URL-OR-FIL
     @opts[:timeout] = timeout
   end
 
-  opts.on('--connect-timeout SECONDS', 'The number of seconds for the connection to be established before timeout, default 5s') do |timeout|
+  opts.on('--connect-timeout SECONDS', 'The number of seconds for the connection to be established before timeout, default 10s') do |timeout|
     @opts[:connecttimeout] = timeout
   end
 
