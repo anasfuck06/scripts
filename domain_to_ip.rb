@@ -17,7 +17,7 @@ if file = ARGV[0]
 
     begin
       ip = IPSocket::getaddress(domain)
-      puts "#{domain} #{IPSocket::getaddress(domain)}"
+      puts "#{domain}\t#{IPSocket::getaddress(domain)}"
     rescue
       puts "#{domain} N/A"
      end
