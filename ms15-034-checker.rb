@@ -7,7 +7,7 @@
 # and not giving any output on the file that was tested, this script test all potential static files
 # that are most likely to have the IIS Kernel cache enabled, such as JS, CSS etc for the MS-15-034.
 #
-## Refrences:
+## References:
 # https://technet.microsoft.com/en-us/library/security/ms15-034.aspx
 # http://www.cvedetails.com/cve/CVE-2015-1635/
 # https://github.com/rapid7/metasploit-framework/blob/master/modules/auxiliary/dos/http/ms15_034_ulonglongadd.rb
