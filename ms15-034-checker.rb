@@ -24,7 +24,7 @@ require 'addressable/uri'
   proxy:          nil,
   timeout:        20,
   connecttimeout: 10,
-  user_agent:     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:37.0) Gecko/20100101 Firefox/37.0 T/%s'
+  user_agent:     'Mozilla/5.0 Gecko/20100101 Firefox/37.0 T/%s'
 }
 
 URL_PATTERN        = %r{^https?://}
