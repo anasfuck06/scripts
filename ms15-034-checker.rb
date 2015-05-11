@@ -24,7 +24,7 @@ require 'addressable/uri'
   proxy:          nil,
   timeout:        20,
   connecttimeout: 10,
-  user_agent:     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:37.0) Gecko/20100101 Firefox/37.0'
+  user_agent:     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:37.0) Gecko/20100101 Firefox/37.0 T/%s'
 }
 
 URL_PATTERN        = %r{^https?://}
@@ -108,7 +108,7 @@ def request_params
     connecttimeout: @opts[:connecttimeout],
     proxy: @opts[:proxy],
     followlocation: true,
-    headers: { 'User-Agent' => @opts[:user_agent] }
+    headers: { 'User-Agent' => format(@opts[:user_agent], Time.now.to_i) }
   }
 end
 
@@ -130,7 +130,7 @@ def send_payload(url)
     request_params.merge(
       headers: {
         'Range' => 'bytes=0-18446744073709551615',
-        'User-Agent' => @opts[:user_agent]
+        'User-Agent' => format(@opts[:user_agent], Time.now.to_i)
       }
     )
   )
